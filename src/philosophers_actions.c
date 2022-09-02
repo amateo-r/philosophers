@@ -12,9 +12,9 @@
 
 # include "../libphil.h"
 
-void	thinking(void)
+void	thinking(int time_to_sleep)
 {
-
+	usleep(time_to_sleep);
 	return ;
 }
 

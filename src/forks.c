@@ -14,6 +14,10 @@
 
 void	test_forks(void)
 {
+	/*
+	Si no estoy hambriento, no como.
+	Si LEFT FORK y RIGHT FORK ocupados, mutex.
+	*/
 	return ;
 }
 void	take_forks(t_philosopher *phil)

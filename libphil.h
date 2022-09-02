@@ -27,6 +27,14 @@ enum e_state
 	HUNGRY = 3
 };
 
+//	CREAR ESTRUCTURA args DONDE SE ALMACENE:
+/*
+ * Tiempos para dormir, comer y morir
+ * tid
+ * mutex
+ * thread states.
+ */
+
 /**
  * DESCRIPTION:
  * Class to store philosopher's data. Represents a
@@ -53,7 +61,7 @@ int		input_manager(int argc, char **argv);
 //	init_philosophers
 
 //	src/philosophers_actions.cs
-void	thinking(void);
+void	thinking(int time_to_sleep);
 void	eating(void);
 void	sleeping(void);
 void	*philosopher_manager(void *var);

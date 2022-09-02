@@ -35,6 +35,8 @@ t_philosopher	*init_philosophers(int number_of_philosophers)
 	}
 	return (tinfo);
 }
+// #define LEFT (i + N - 1) % N
+// #define RIGHT (i + 1) % N 
 
 /**
  * DESCRIPTION:
