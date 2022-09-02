@@ -12,17 +12,6 @@
 
 #include "../libphil.h"
 
-void	*ft_sum(void *var)
-{
-	static int		a;
-	t_philosopher	*phil;
-
-	phil = (t_philosopher *) var;
-	a = a + 10 + 1;
-	printf("Thread [%d]: %d\n", (int) phil->id, a);
-	return (NULL);
-}
-
 /**
  * DESCRIPTION:
  * Initialize philosophers data.
@@ -60,6 +49,7 @@ int	main(int argc, char **argv)
 {
 	t_philosopher	*tinfo;
 	int				number_of_philosophers;
+	int				i;
 
 	tinfo = NULL;
 	if (!input_manager(argc, argv))
@@ -67,11 +57,15 @@ int	main(int argc, char **argv)
 		printf("Iniciando...\n");
 		number_of_philosophers = ft_atoi(argv[1]);
 		tinfo = init_philosophers(number_of_philosophers);
-		for (int i = 0; i < number_of_philosophers; i++)
-		{
-			pthread_create(&tinfo[i].thread_id, NULL, ft_sum, &tinfo[i]);
-		}
-		pthread_exit(NULL); // No está permitida.
+		i = -1;
+		while (++i < number_of_philosophers)
+			pthread_create(&tinfo[i].tid, NULL, philosopher_manager, &tinfo[i]);
+		for (int j = 0; j < number_of_philosophers; j++)
+			printf("\nState [%d] in main: %d\n", tinfo[j].id, tinfo[j].state);
+		i = -1;
+		while (++i < number_of_philosophers)
+			pthread_join(tinfo[i].tid, NULL);
+		//pthread_exit(NULL); // No está permitida.
 	}
 	return (0);
 }

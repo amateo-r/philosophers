@@ -19,27 +19,28 @@
 # include <sys/time.h>
 # include <pthread.h>
 
-# define THINKING 0
-# define EATING 1
-# define SLEEPING 2
+enum e_state
+{
+	THINKING = 0,
+	EATING = 1,
+	SLEEPING = 2,
+	HUNGRY = 3
+};
 
 /**
  * DESCRIPTION:
  * Class to store philosopher's data. Represents a
  * philosopher.
  * PARAMETERS:
- * @param	int			state		THINKING 0, EATING 1, SLEEPING 2.
- * @param	pthread_t	thread_id	Current thread.
+ * @param	pthread_t	tid		Current thread.
+ * @param	int			state	THINKING 0, EATING 1, SLEEPING 2.
  */
 typedef struct s_philosopher
 {
-	pthread_t	thread_id;
+	pthread_t	tid;
 	int			id;
 	int			state;
-	// ID tenedor derecho
-	// ID tenedor izquierdo
 }	t_philosopher;
-
 
 //	src/libft
 size_t	ft_strlen(const char *s);
@@ -54,7 +55,12 @@ int		input_manager(int argc, char **argv);
 //	src/philosophers_actions.cs
 void	thinking(void);
 void	eating(void);
-void	sleeping(void) // ¿Personalizado?¿Sincronización?
-void	philosopher_manager(void); // Debe sustituirse el argumento vacío por t_philosopher.
+void	sleeping(void);
+void	*philosopher_manager(void *var);
+
+//	src/forks.c
+void	take_forks(t_philosopher *phil);
+void	put_forks(void);
+void	test_forks(void);
 
 #endif

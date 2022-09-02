@@ -16,7 +16,8 @@ SRC		=	./src/main.c \
 			./src/libft/ft_strlen.c \
 			./src/libft/ft_strncmp.c \
 			./src/libft/ft_atoi.c \
-			./src/philosophers_actions.c
+			./src/philosophers_actions.c \
+			./src/forks.c
 
 OBJ		=	$(SRC:.c=.o)
 
@@ -37,5 +38,6 @@ clean:
 			$(RM) $(OBJ)
 
 fclean:		clean
+			$(RM) $(NAME)
 
 re:			fclean all

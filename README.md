@@ -1,5 +1,6 @@
 # philosophers
-Stupid forks
+Stupid forks.
+The final answer to the problem is Resource hierarchy solution.
 
 ## Allowed Functions
 memset
@@ -21,3 +22,6 @@ pthread_mutex_unlock	- Desbloque un mutex.
 
 ## Help links
 https://www.geeksforgeeks.org/mutex-lock-for-linux-thread-synchronization/?ref=gcse
+https://docs.oracle.com/cd/E37838_01/pdf/E61057.pdf
+https://www.ibm.com/docs/en/i/7.3?topic=ssw_ibm_i_73/apis/users_61.htm
+

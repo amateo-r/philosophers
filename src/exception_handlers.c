@@ -69,6 +69,25 @@ int	chk_integer(char **argv)
 	return (flag);
 }
 
+//P  0   1   2   3
+// 1 F 2 F 3 F 4 F
+//F0   1   2   3
+// N = 4
+// #define LEFT (i+N-1)%N    // number of i's left neighbor
+// #define RIGHT (i+1)%N     // number of i's right neighbor
+
+// L1 = (0 + 4 - 1) % 4 = 3
+// R1 = (0 + 1) % 4 = 1
+
+// L2 = (1 + 4 - 1) % 4 = 0
+// R2 = (1 + 1) % 4 = 2
+
+// L3 = (2 + 4 - 1) % 4 = 1
+// R3 = (2 + 1) % 4 = 3
+
+// L4 = (3 + 4 - 1) % 4 = 2
+// R4 = (3 + 1) % 4 = 0
+
 /**
  * DESCRIPTION:
  * Check all input exceptions.

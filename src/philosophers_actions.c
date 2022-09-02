@@ -14,6 +14,7 @@
 
 void	thinking(void)
 {
+
 	return ;
 }
 
@@ -27,7 +28,24 @@ void	sleeping(void)
 	return ;
 }
 
-void	philosopher_manager(void)
+void	*philosopher_manager(void *var)
 {
-	return ;
+	static int		a;
+	t_philosopher	*phil;
+
+	phil = (t_philosopher *) var;
+	a = a + 11;
+	printf("Thread [%d]: %d\n", (int) phil->id, a);
+
+	take_forks(phil);
+	// while(1)
+	// {
+		// thinking(phil->id);
+		// take_forks
+		// eating
+		// put_forks
+		// think(phil->id);
+		// sleeping
+	// }
+	return (NULL);
 }
