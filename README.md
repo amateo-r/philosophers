@@ -25,3 +25,23 @@ https://www.geeksforgeeks.org/mutex-lock-for-linux-thread-synchronization/?ref=g
 https://docs.oracle.com/cd/E37838_01/pdf/E61057.pdf
 https://www.ibm.com/docs/en/i/7.3?topic=ssw_ibm_i_73/apis/users_61.htm
 
+## Testeos
+
+//P  0   1   2   3
+// 1 F 2 F 3 F 4 F
+//F0   1   2   3
+// N = 4
+// #define LEFT (i+N-1)%N    // number of i's left neighbor
+// #define RIGHT (i+1)%N     // number of i's right neighbor
+
+// L1 = (0 + 4 - 1) % 4 = 3
+// R1 = (0 + 1) % 4 = 1
+
+// L2 = (1 + 4 - 1) % 4 = 0
+// R2 = (1 + 1) % 4 = 2
+
+// L3 = (2 + 4 - 1) % 4 = 1
+// R3 = (2 + 1) % 4 = 3
+
+// L4 = (3 + 4 - 1) % 4 = 2
+// R4 = (3 + 1) % 4 = 0
