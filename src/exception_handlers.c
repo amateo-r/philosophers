@@ -15,6 +15,8 @@
 /**
  * DESCRIPTION:
  * Checks that input number are positives.
+ * RETURN:
+ * If there is one negative number returns 0 else 1.
  * PARAMETERS:
  * @param	char	**argv	Input parameters from main.
  */

@@ -24,6 +24,8 @@ pthread_mutex_unlock	- Desbloque un mutex.
 https://www.geeksforgeeks.org/mutex-lock-for-linux-thread-synchronization/?ref=gcse
 https://docs.oracle.com/cd/E37838_01/pdf/E61057.pdf
 https://www.ibm.com/docs/en/i/7.3?topic=ssw_ibm_i_73/apis/users_61.htm
+https://es.wikipedia.org/wiki/Exclusi%C3%B3n_mutua_(inform%C3%A1tica)
+https://www.ibm.com/docs/en/aix/7.2?topic=programming-using-mutexes
 
 ## Testeos
 
@@ -45,3 +47,38 @@ https://www.ibm.com/docs/en/i/7.3?topic=ssw_ibm_i_73/apis/users_61.htm
 
 // L4 = (3 + 4 - 1) % 4 = 2
 // R4 = (3 + 1) % 4 = 0
+
+## Notes
+- El orden de las acciones de los filósofos es el siguiente:
+	- eating -> sleeping -> thinking
+- pthread_mutex_init puede dar error por no crear un mutex al no haber suficiente espacio de memoria.
+- Un mutex debe de ser destruido antes de que se libere su hilo. La librería de hilos mantiene un enlace a una lista de mutex.
+	de no destruirlo la lista queda corrupta al tener un enlace de un hilo que ya no existe.
+- Hay que comprobar la alocación de memoria de los pthreads. Aparentemente devuelven un número que quizá revele su estado 
+existencial.
+- Para la función gettimeofday hay dos argumentos, timeval (tp) y timezone (tzp) que son estructuras. Si tp es non-NULL y tzp es 
+NULL solo la estructura tp es relleneda con datos. Si ambos son NULL no devuelve nada. Un 0 es un retorno exitoso. Un -1 que un 
+error ha ocurrido. Sus resultados pueden funcionar con %ld. Añade unos cuantos segundos de más.
+	- Interpreto que tengo que sacar el tiempo llamando dos veces a esta función y hacer la resta.
+- La función usleep recibe por parámetro microsegundos no milisegundos.
+- Arbitrator solution: un filósofo solo puede coger todos los tenedores o ninguno. Una entidad denominada "waiter" se encarga de 
+administrar los tenedores. Dicha entidad sería su propio mutex.
+- El tiempo empiza a contar cuando comienza la simulación o justo después de que un filósofo coma. Se ve que hay que tomar un 
+valor global de tiempo antes de iniciar todas los hilos, probablemenet para restar con ese.
+- Da la sensación de que hay que crear un hilo para la impresión de mensajes.
+- Podría parecer que hay que crear un hilo en cada filósofo para comprobar su estado de vida. Se me ocurre que al hacer esto 
+podría incurrir en un problema cuando un filósofo tuviera que comer varias veces.
+- ¿Cómo narices hago para pasar datos entre los hilos?
+	- Un puntero a un array o struct con datos para cada t_philosopher
+- Mis recursos con partidos son los tenedores.
+- La inicialización de mutex puede incurrir en error.
+- Los mutex deben ser destruidos.
+03h13
+03h12
+03h17
+
+09h42
+02h18
+
+Bueno, he aprendido bastante diría yo. Por lo que veo creo que no voy a poder usar el modelo de waiter. No estoy seguro. Es 
+necesario que cada hilo si no puede accder al recurso compartido inicie un mutex. Eso es lo que me molesta en general.

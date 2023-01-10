@@ -28,7 +28,7 @@ t_philosopher	*init_philosophers(int number_of_philosophers)
 	while (++i < number_of_philosophers)
 	{
 		tinfo[i].id = i;
-		tinfo[i].state = 0;
+		tinfo[i].state = THINKING;
 		// Right fork
 		// Left fork
 		continue ;
@@ -37,6 +37,18 @@ t_philosopher	*init_philosophers(int number_of_philosophers)
 }
 // #define LEFT (i + N - 1) % N
 // #define RIGHT (i + 1) % N 
+
+/**
+ * DESCRIPTION:
+ * Returns the difference from a time interval.
+ * PARAMETERS:
+ * @param	struct timeval	start	First time register.
+ * @param	struct timeval	end		Last time register.
+ */
+float	ft_timediff(struct timeval start, struct timeval end)
+{
+	return ((end.tv_sec - start.tv_sec) + 1e-6 * (end.tv_usec - start.tv_usec));
+}
 
 /**
  * DESCRIPTION:
@@ -52,7 +64,13 @@ int	main(int argc, char **argv)
 	t_philosopher	*tinfo;
 	int				number_of_philosophers;
 	int				i;
+	// struct timeval	start, end;
 
+	// i = gettimeofday(&start, NULL);
+	// usleep(3000000);
+	// i = gettimeofday(&end, NULL);
+	// if (!i)
+	// 	printf("\tEnd:\n%lf segundos\n", ft_timediff(start, end));
 	tinfo = NULL;
 	if (!input_manager(argc, argv))
 	{
@@ -60,13 +78,14 @@ int	main(int argc, char **argv)
 		number_of_philosophers = ft_atoi(argv[1]);
 		tinfo = init_philosophers(number_of_philosophers);
 		i = -1;
+		// [NOTE] Aquí tendría que existir un gettimeofday probablemente para guardar el inicio de la simulación.
 		while (++i < number_of_philosophers)
 			pthread_create(&tinfo[i].tid, NULL, philosopher_manager, &tinfo[i]);
-		for (int j = 0; j < number_of_philosophers; j++)
-			printf("\nState [%d] in main: %d\n", tinfo[j].id, tinfo[j].state);
+		// for (int j = 0; j < number_of_philosophers; j++)
+		// 	printf("\nState [%d] in main: %d\n", tinfo[j].id, tinfo[j].state);
 		i = -1;
 		while (++i < number_of_philosophers)
-			pthread_join(tinfo[i].tid, NULL);
+			pthread_join(tinfo[i].tid, NULL); // [NOTE] Comprobar el tipo de dato que devuelve esto y los errores que puedan ocurrir.
 		//pthread_exit(NULL); // No está permitida.
 	}
 	return (0);
