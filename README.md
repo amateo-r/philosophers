@@ -8,17 +8,26 @@ printf
 malloc
 free
 write
-usleep					- Por procedimientos del sistema puede demorar o alterar el tiempo de espera. MALO, MUY MALO.
-gettimeofday			- Tipo de dato personalizado struct en input.
-pthread_create			- Para matar un proceso se necista llamar a pthread_join al final o alternativamente pthread_detacth. Own Structs Data Inputs case.
-pthread_detach			- Finaliza un proceso cuando ha terminado su ejecución. Si no lo ha hecho, no lo mata. Múltiples llamadas de esta función sobre un mismo proceso produce efectos inesperados.
-pthread_join			- Finaliza la ejecución del hilo convocado cuando el hilo objetivo termina. Problemático quizás.
-pthread_mutex_init		- Inicia un mutex.
-pthread_mutex_destroy	- Libera el espacio alocado a un mutex.
-pthread_mutex_lock		- Bloquea un mutex.
-pthread_mutex_unlock	- Desbloque un mutex.
+usleep
+- Por procedimientos del sistema puede demorar o alterar el tiempo de espera. MALO, MUY MALO.
+gettimeofday
+- Tipo de dato personalizado struct en input.
+pthread_create
+- Para matar un proceso se necista llamar a pthread_join al final o alternativamente pthread_detacth. Own Structs Data Inputs case.
+pthread_detach
+- Finaliza un proceso cuando ha terminado su ejecución. Si no lo ha hecho, no lo mata. Múltiples llamadas de esta función sobre un mismo proceso produce efectos inesperados.
+pthread_join
+- Finaliza la ejecución del hilo convocado cuando el hilo objetivo termina. Problemático quizás.
+pthread_mutex_init
+- Inicia un mutex.
+pthread_mutex_destroy
+- Libera el espacio alocado a un mutex.
+pthread_mutex_lock
+- Bloquea un mutex.
+pthread_mutex_unlock
+- Desbloque un mutex.
 
-						Conclusión: Como viene siendo costumbre las explicaciones del sistema son una basura.
+> Conclusión: Como viene siendo costumbre las explicaciones del sistema son una basura.
 
 ## Help links
 https://www.geeksforgeeks.org/mutex-lock-for-linux-thread-synchronization/?ref=gcse
@@ -73,12 +82,6 @@ podría incurrir en un problema cuando un filósofo tuviera que comer varias vec
 - Mis recursos con partidos son los tenedores.
 - La inicialización de mutex puede incurrir en error.
 - Los mutex deben ser destruidos.
-03h13
-03h12
-03h17
 
-09h42
-02h18
-
-Bueno, he aprendido bastante diría yo. Por lo que veo creo que no voy a poder usar el modelo de waiter. No estoy seguro. Es 
-necesario que cada hilo si no puede accder al recurso compartido inicie un mutex. Eso es lo que me molesta en general.
+Estoy haciendo algo mal.
+Crear una rutina de trabajo.
