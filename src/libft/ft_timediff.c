@@ -1,33 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   forks.c                                            :+:      :+:    :+:   */
+/*   ft_timediff.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amateo-r <amateo-r@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/02 10:28:28 by amateo-r          #+#    #+#             */
-/*   Updated: 2022/09/02 10:28:30 by amateo-r         ###   ########.fr       */
+/*   Created: 2023/01/20 10:58:57 by amateo-r          #+#    #+#             */
+/*   Updated: 2023/01/20 10:58:58 by amateo-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libphil.h"
+#include "../../libphil.h"
 
-void	test_forks(void)
+/**
+ * DESCRIPTION:
+ * Returns the difference from a time interval.
+ * PARAMETERS:
+ * @param	struct timeval	start	First time register.
+ * @param	struct timeval	end		Last time register.
+ */
+float	ft_timediff(struct timeval start, struct timeval end)
 {
-	/*
-	Si no estoy hambriento, no como.
-	Si LEFT FORK y RIGHT FORK ocupados, mutex.
-	*/
-	return ;
-}
-void	take_forks(t_philosopher *phil)
-{
-	phil->state = EATING;
-	// printf("\tState: %d\n", phil->state);
-	test_forks();
-	return ;
-}
-void	put_forks(void)
-{
-	return ;
+	return ((end.tv_sec - start.tv_sec) + 1e-6 * (end.tv_usec - start.tv_usec));
 }

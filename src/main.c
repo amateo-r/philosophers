@@ -16,38 +16,28 @@
  * DESCRIPTION:
  * Initialize philosophers data.
  * PARAMETERS:
- * @param	int	number_of_phislophers	Input cont of philosophers and forks.
+ * @param	int		argcc	Number of inputs.
+ * @param	char	**argv	Input paramters.
  */
-t_philosopher	*init_philosophers(int number_of_philosophers)
+t_philosopher	*init_philosophers(int argc, char **argv)
 {
 	t_philosopher	*tinfo;
 	int				i;
+	int				number_of_philosophers;
 
+	number_of_philosophers = ft_atoi(argv[1]);
 	tinfo = calloc(number_of_philosophers, sizeof(*tinfo)); // función prohibida
 	i = -1;
 	while (++i < number_of_philosophers)
 	{
 		tinfo[i].id = i;
 		tinfo[i].state = THINKING;
+		if (argc == 4)
+			tinfo[i].times_to_eat = ft_atoi(argv[5]);
 		// Right fork
 		// Left fork
-		continue ;
 	}
 	return (tinfo);
-}
-// #define LEFT (i + N - 1) % N
-// #define RIGHT (i + 1) % N 
-
-/**
- * DESCRIPTION:
- * Returns the difference from a time interval.
- * PARAMETERS:
- * @param	struct timeval	start	First time register.
- * @param	struct timeval	end		Last time register.
- */
-float	ft_timediff(struct timeval start, struct timeval end)
-{
-	return ((end.tv_sec - start.tv_sec) + 1e-6 * (end.tv_usec - start.tv_usec));
 }
 
 /**
@@ -72,21 +62,18 @@ int	main(int argc, char **argv)
 	// if (!i)
 	// 	printf("\tEnd:\n%lf segundos\n", ft_timediff(start, end));
 	tinfo = NULL;
-	if (!input_manager(argc, argv))
+	if (!input_manager(argc - 1, argv))
 	{
 		printf("Iniciando...\n");
 		number_of_philosophers = ft_atoi(argv[1]);
-		tinfo = init_philosophers(number_of_philosophers);
+		tinfo = init_philosophers(argc, argv);
 		i = -1;
 		// [NOTE] Aquí tendría que existir un gettimeofday probablemente para guardar el inicio de la simulación.
 		while (++i < number_of_philosophers)
 			pthread_create(&tinfo[i].tid, NULL, philosopher_manager, &tinfo[i]);
-		// for (int j = 0; j < number_of_philosophers; j++)
-		// 	printf("\nState [%d] in main: %d\n", tinfo[j].id, tinfo[j].state);
 		i = -1;
 		while (++i < number_of_philosophers)
 			pthread_join(tinfo[i].tid, NULL); // [NOTE] Comprobar el tipo de dato que devuelve esto y los errores que puedan ocurrir.
-		//pthread_exit(NULL); // No está permitida.
 	}
 	return (0);
 }

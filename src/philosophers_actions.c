@@ -32,7 +32,7 @@ void	eating(void)
 
 void	sleeping(void)
 {
-	//usleep(teme_to_sleep)
+	//usleep(time_to_sleep)
 	return ;
 }
 
@@ -45,7 +45,7 @@ void	*philosopher_manager(void *var)
 	printf("Thread [%d]: %d\n", (int) phil->id, (int) phil->tid);
 	gettimeofday(&start, NULL); // [NOTE] Inicio del filósofo diría yo. ¿Comprobar en cada acción su vida? Esto consume tiempo.
 	take_forks(phil);
-	// while(1)
+	// while(1) // [NOTE] Diría que en lugar de volver esto un bucle eterno, usara como bandera las veces que come. Cuando haya comido las necesarias, se sale.
 	// {
 		// ¿eat or think?
 		// take_forks

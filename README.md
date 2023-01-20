@@ -30,11 +30,11 @@ pthread_mutex_unlock
 > Conclusión: Como viene siendo costumbre las explicaciones del sistema son una basura.
 
 ## Help links
-https://www.geeksforgeeks.org/mutex-lock-for-linux-thread-synchronization/?ref=gcse
-https://docs.oracle.com/cd/E37838_01/pdf/E61057.pdf
-https://www.ibm.com/docs/en/i/7.3?topic=ssw_ibm_i_73/apis/users_61.htm
-https://es.wikipedia.org/wiki/Exclusi%C3%B3n_mutua_(inform%C3%A1tica)
-https://www.ibm.com/docs/en/aix/7.2?topic=programming-using-mutexes
+- https://www.geeksforgeeks.org/mutex-lock-for-linux-thread-synchronization/?ref=gcse
+- https://docs.oracle.com/cd/E37838_01/pdf/E61057.pdf
+- https://www.ibm.com/docs/en/i/7.3?topic=ssw_ibm_i_73/apis/users_61.htm
+- https://es.wikipedia.org/wiki/Exclusi%C3%B3n_mutua_(inform%C3%A1tica)
+- https://www.ibm.com/docs/en/aix/7.2?topic=programming-using-mutexes
 
 ## Testeos
 
@@ -42,8 +42,8 @@ https://www.ibm.com/docs/en/aix/7.2?topic=programming-using-mutexes
 // 1 F 2 F 3 F 4 F
 //F0   1   2   3
 // N = 4
-// #define LEFT (i+N-1)%N    // number of i's left neighbor
-// #define RIGHT (i+1)%N     // number of i's right neighbor
+// #define LEFT (i + N - 1) % N    // number of i's left neighbor
+// #define RIGHT (i + 1 ) % N     // number of i's right neighbor
 
 // L1 = (0 + 4 - 1) % 4 = 3
 // R1 = (0 + 1) % 4 = 1
@@ -73,15 +73,13 @@ error ha ocurrido. Sus resultados pueden funcionar con %ld. Añade unos cuantos 
 - Arbitrator solution: un filósofo solo puede coger todos los tenedores o ninguno. Una entidad denominada "waiter" se encarga de 
 administrar los tenedores. Dicha entidad sería su propio mutex.
 - El tiempo empiza a contar cuando comienza la simulación o justo después de que un filósofo coma. Se ve que hay que tomar un 
-valor global de tiempo antes de iniciar todas los hilos, probablemenet para restar con ese.
+valor global de tiempo antes de iniciar todos los hilos, probablemente para restar con ese.
 - Da la sensación de que hay que crear un hilo para la impresión de mensajes.
 - Podría parecer que hay que crear un hilo en cada filósofo para comprobar su estado de vida. Se me ocurre que al hacer esto 
 podría incurrir en un problema cuando un filósofo tuviera que comer varias veces.
 - ¿Cómo narices hago para pasar datos entre los hilos?
 	- Un puntero a un array o struct con datos para cada t_philosopher
-- Mis recursos con partidos son los tenedores.
+- Mis recursos compartidos son los tenedores.
 - La inicialización de mutex puede incurrir en error.
 - Los mutex deben ser destruidos.
 
-Estoy haciendo algo mal.
-Crear una rutina de trabajo.

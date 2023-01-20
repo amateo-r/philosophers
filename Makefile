@@ -16,6 +16,7 @@ SRC		=	./src/main.c \
 			./src/libft/ft_strlen.c \
 			./src/libft/ft_strncmp.c \
 			./src/libft/ft_atoi.c \
+			./src/libft/ft_timediff.c \
 			./src/philosophers_actions.c \
 			./src/forks.c
 
