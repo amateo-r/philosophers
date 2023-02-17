@@ -70,13 +70,10 @@ NULL solo la estructura tp es relleneda con datos. Si ambos son NULL no devuelve
 error ha ocurrido. Sus resultados pueden funcionar con %ld. Añade unos cuantos segundos de más.
 	- Interpreto que tengo que sacar el tiempo llamando dos veces a esta función y hacer la resta.
 - La función usleep recibe por parámetro microsegundos no milisegundos.
-- Arbitrator solution: un filósofo solo puede coger todos los tenedores o ninguno. Una entidad denominada "waiter" se encarga de 
-administrar los tenedores. Dicha entidad sería su propio mutex.
-- El tiempo empiza a contar cuando comienza la simulación o justo después de que un filósofo coma. Se ve que hay que tomar un 
-valor global de tiempo antes de iniciar todos los hilos, probablemente para restar con ese.
+- Arbitrator solution: un filósofo solo puede coger todos los tenedores o ninguno. Una entidad denominada "waiter" se encarga de administrar los tenedores. Dicha entidad sería su propio mutex.
+- El tiempo empiza a contar cuando comienza la simulación o justo después de que un filósofo coma. Se ve que hay que tomar un valor global de tiempo antes de iniciar todos los hilos, probablemente para restar con ese.
 - Da la sensación de que hay que crear un hilo para la impresión de mensajes.
-- Podría parecer que hay que crear un hilo en cada filósofo para comprobar su estado de vida. Se me ocurre que al hacer esto 
-podría incurrir en un problema cuando un filósofo tuviera que comer varias veces.
+- Podría parecer que hay que crear un hilo en cada filósofo para comprobar su estado de vida. Se me ocurre que al hacer esto podría incurrir en un problema cuando un filósofo tuviera que comer varias veces.
 - ¿Cómo narices hago para pasar datos entre los hilos?
 	- Un puntero a un array o struct con datos para cada t_philosopher
 - Mis recursos compartidos son los tenedores.

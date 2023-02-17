@@ -12,45 +12,48 @@
 
 # include "../libphil.h"
 
-void	thinking(int time_to_think)
+void	thinking(t_philosopher *phil, int time_to_think)
 {
+	phil->state = THINKING;
 	usleep(time_to_think);
 	return ;
 }
 
-void	eating(void)
+void	eating(t_philosopher *phil, int time_to_eat)
 {
+	phil->state = EATING;
 	// close mutex
 	// bloquear tenedor derecho
 	// bloquear tenedor izquierdo
-	// usleep(time_to_eat)
+	usleep(time_to_eat);
 	// liberar tenedor derecho
 	// liberar tenedor izquierdo
 	// open mutex
+	phil->times_to_eat--;
+
+	// put_forks
 	return ;
 }
 
-void	sleeping(void)
+void	sleeping(t_philosopher *phil, int time_to_sleep)
 {
-	//usleep(time_to_sleep)
+	phil->state = SLEEPING;
+	usleep(time_to_sleep);
 	return ;
 }
 
 void	*philosopher_manager(void *var)
 {
-	struct timeval	start;
 	t_philosopher	*phil;
 
 	phil = (t_philosopher *) var;
 	printf("Thread [%d]: %d\n", (int) phil->id, (int) phil->tid);
-	gettimeofday(&start, NULL); // [NOTE] Inicio del filósofo diría yo. ¿Comprobar en cada acción su vida? Esto consume tiempo.
 	take_forks(phil);
-	// while(1) // [NOTE] Diría que en lugar de volver esto un bucle eterno, usara como bandera las veces que come. Cuando haya comido las necesarias, se sale.
+	// while(phil->times_to_eat > 0) // [NOTE] Todo el mundo emplea 1 para crear un bucle eterno.
 	// {
 		// ¿eat or think?
 		// take_forks
-		// eating
-		// put_forks
+		// eating [put_forks inside]
 		// sleeping
 		// thinking(phil->id);
 	// }

@@ -14,7 +14,7 @@
 
 /**
  * DESCRIPTION:
- * Returns the difference from a time interval.
+ * Returns the difference from a time interval in seconds.
  * PARAMETERS:
  * @param	struct timeval	start	First time register.
  * @param	struct timeval	end		Last time register.

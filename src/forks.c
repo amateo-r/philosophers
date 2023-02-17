@@ -22,8 +22,7 @@ void	test_forks(void)
 }
 void	take_forks(t_philosopher *phil)
 {
-	phil->state = EATING;
-	// printf("\tState: %d\n", phil->state);
+	printf("\tState: %d\n", phil->state);
 	test_forks();
 	return ;
 }

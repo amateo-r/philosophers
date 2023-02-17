@@ -96,6 +96,26 @@ int	chk_integer(char **argv)
 
 /**
  * DESCRIPTION:
+ * Print information of errors.
+ * PARAMETERS:
+ * @param	int	code	Error code.
+ */
+void	print_error(int code)
+{
+	printf("Error: ");
+	if (code == 1)
+		printf("Wrong number of inputs");
+	else if (code == 2)
+		printf("Wrong format. Must be integers.");
+	else if (code == 3)
+		printf("Number zero isn't allowed.");
+	else if (code == 4)
+		printf("Negative numbers aren't allowed.");
+	return ;
+}
+
+/**
+ * DESCRIPTION:
  * Check all input exceptions.
  * PARAMETERS:
  * @param	int		argc	Number of elements of argv.
@@ -105,16 +125,17 @@ int	input_manager(int argc, char **argv)
 {
 	int	flag;
 
+	printf("ARGC: %d\n", argc);
 	flag = 0;
-	if (argc < 5 || argc > 6)
+	if (argc < 4 || argc >= 6)
 		flag = 1;
 	else if (!chk_integer(argv))
-		flag = 1;
+		flag = 2;
 	else if (!chk_zero(argv))
-		flag = 1;
+		flag = 3;
 	else if (!chk_negative(argv))
-		flag = 1;
+		flag = 4;
 	if (flag)
-		printf("Error\n");
+		print_error(flag);
 	return (flag);
 }

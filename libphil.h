@@ -39,16 +39,18 @@ enum e_state
  * Class to store philosopher's data. Represents a
  * philosopher.
  * PARAMETERS:
- * @param	pthread_t	tid				Current thread.
- * @param	int			state			THINKING 0, EATING 1, SLEEPING 2.
- * @param	int			times_to_eat	Times that a philosopher must eat.
+ * @param	pthread_t		tid				Current thread.
+ * @param	int				state			THINKING 0, EATING 1, SLEEPING 2.
+ * @param	int				times_to_eat	Times that a philosopher must eat.
+ * @param	struct timeval	birth			Date of born.
  */
 typedef struct s_philosopher
 {
-	pthread_t	tid;
-	int			id;
-	int			state;
-	int			times_to_eat;
+	pthread_t		tid;
+	int				id;
+	int				state;
+	int				times_to_eat;
+	struct timeval	birth;
 }	t_philosopher;
 
 //	src/libft
@@ -63,9 +65,9 @@ int		input_manager(int argc, char **argv);
 //	init_philosophers
 
 //	src/philosophers_actions.cs
-void	thinking(int time_to_sleep);
-void	eating(void);
-void	sleeping(void);
+void	thinking(t_philosopher *phil, int time_to_think);
+void	eating(t_philosopher *phil, int time_to_eat);
+void	sleeping(t_philosopher *phil, int time_to_sleep);
 void	*philosopher_manager(void *var);
 
 //	src/forks.c

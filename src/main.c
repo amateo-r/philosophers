@@ -24,16 +24,21 @@ t_philosopher	*init_philosophers(int argc, char **argv)
 	t_philosopher	*tinfo;
 	int				i;
 	int				number_of_philosophers;
+	struct timeval	start;
 
 	number_of_philosophers = ft_atoi(argv[1]);
-	tinfo = calloc(number_of_philosophers, sizeof(*tinfo)); // función prohibida
+	tinfo = calloc(number_of_philosophers, sizeof(*tinfo));		// [NOTE] función prohibida
 	i = -1;
+	gettimeofday(&start, NULL);									// Registro oficial del inicio de la simulación.
 	while (++i < number_of_philosophers)
 	{
 		tinfo[i].id = i;
 		tinfo[i].state = THINKING;
 		if (argc == 4)
 			tinfo[i].times_to_eat = ft_atoi(argv[5]);
+		else
+			tinfo[i].times_to_eat = 1;
+		tinfo[i].birth = start;
 		// Right fork
 		// Left fork
 	}
@@ -54,7 +59,6 @@ int	main(int argc, char **argv)
 	t_philosopher	*tinfo;
 	int				number_of_philosophers;
 	int				i;
-	// struct timeval	start, end;
 
 	// i = gettimeofday(&start, NULL);
 	// usleep(3000000);
@@ -68,12 +72,11 @@ int	main(int argc, char **argv)
 		number_of_philosophers = ft_atoi(argv[1]);
 		tinfo = init_philosophers(argc, argv);
 		i = -1;
-		// [NOTE] Aquí tendría que existir un gettimeofday probablemente para guardar el inicio de la simulación.
 		while (++i < number_of_philosophers)
 			pthread_create(&tinfo[i].tid, NULL, philosopher_manager, &tinfo[i]);
 		i = -1;
 		while (++i < number_of_philosophers)
-			pthread_join(tinfo[i].tid, NULL); // [NOTE] Comprobar el tipo de dato que devuelve esto y los errores que puedan ocurrir.
+			pthread_join(tinfo[i].tid, NULL);					// [NOTE] Comprobar el tipo de dato que devuelve esto y los errores que puedan ocurrir.
 	}
 	return (0);
 }
