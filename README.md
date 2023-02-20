@@ -80,3 +80,4 @@ error ha ocurrido. Sus resultados pueden funcionar con %ld. Añade unos cuantos 
 - La inicialización de mutex puede incurrir en error.
 - Los mutex deben ser destruidos.
 
+
