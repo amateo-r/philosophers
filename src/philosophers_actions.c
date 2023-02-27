@@ -35,27 +35,26 @@ void	eating(t_philosopher *phil, int time_to_eat)
 	return ;
 }
 
-void	sleeping(t_philosopher *phil, int time_to_sleep)
+void	sleeping(t_philosopher *philo, int time_to_sleep)
 {
-	phil->state = SLEEPING;
+	philo->state = SLEEPING;
 	usleep(time_to_sleep);
 	return ;
 }
 
 void	*philosopher_manager(void *var)
 {
-	t_philosopher	*phil;
+	t_philosopher	*philo;
 
-	phil = (t_philosopher *) var;
-	printf("Thread [%d]: %d\n", (int) phil->id, (int) phil->tid);
-	take_forks(phil);
-	// while(phil->times_to_eat > 0) // [NOTE] Todo el mundo emplea 1 para crear un bucle eterno.
-	// {
-		// ¿eat or think?
+	philo = (t_philosopher *) var;
+	printf("Thread [%d]: %d\n", (int) philo->id, (int) philo->tid);
+	take_forks(philo);
+	while(philo->times_to_eat > 0) // [NOTE] Todo el mundo emplea 1 para crear un bucle eterno.
+	{
 		// take_forks
 		// eating [put_forks inside]
-		// sleeping
+		// sleeping(phil->id);
 		// thinking(phil->id);
-	// }
+	}
 	return (NULL);
 }

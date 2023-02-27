@@ -79,5 +79,8 @@ error ha ocurrido. Sus resultados pueden funcionar con %ld. Añade unos cuantos 
 - Mis recursos compartidos son los tenedores.
 - La inicialización de mutex puede incurrir en error.
 - Los mutex deben ser destruidos.
+- They think as long as they can't eat.
+	- (Time to die - time to eat - time to sleep) = time to think. That's also the reason for starting tte on begin eating.
+
 
 

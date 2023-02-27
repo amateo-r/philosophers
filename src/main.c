@@ -14,39 +14,6 @@
 
 /**
  * DESCRIPTION:
- * Initialize philosophers data.
- * PARAMETERS:
- * @param	int		argcc	Number of inputs.
- * @param	char	**argv	Input paramters.
- */
-t_philosopher	*init_philosophers(int argc, char **argv)
-{
-	t_philosopher	*tinfo;
-	int				i;
-	int				number_of_philosophers;
-	struct timeval	start;
-
-	number_of_philosophers = ft_atoi(argv[1]);
-	tinfo = calloc(number_of_philosophers, sizeof(*tinfo));		// [NOTE] función prohibida
-	i = -1;
-	gettimeofday(&start, NULL);									// Registro oficial del inicio de la simulación.
-	while (++i < number_of_philosophers)
-	{
-		tinfo[i].id = i;
-		tinfo[i].state = THINKING;
-		if (argc == 4)
-			tinfo[i].times_to_eat = ft_atoi(argv[5]);
-		else
-			tinfo[i].times_to_eat = 1;
-		tinfo[i].birth = start;
-		// Right fork
-		// Left fork
-	}
-	return (tinfo);
-}
-
-/**
- * DESCRIPTION:
  * Los inputs son en orden:
  * 	- number_of_philosophers and forks.
  * 	- time_to_die.
@@ -56,8 +23,8 @@ t_philosopher	*init_philosophers(int argc, char **argv)
  */
 int	main(int argc, char **argv)
 {
-	t_philosopher	*tinfo;
-	int				number_of_philosophers;
+	t_phdata		phdata;
+	t_philosopher	*philo;
 	int				i;
 
 	// i = gettimeofday(&start, NULL);
@@ -65,18 +32,18 @@ int	main(int argc, char **argv)
 	// i = gettimeofday(&end, NULL);
 	// if (!i)
 	// 	printf("\tEnd:\n%lf segundos\n", ft_timediff(start, end));
-	tinfo = NULL;
+	philo = NULL;
 	if (!input_manager(argc - 1, argv))
 	{
 		printf("Iniciando...\n");
-		number_of_philosophers = ft_atoi(argv[1]);
-		tinfo = init_philosophers(argc, argv);
+		init_data(argc, argv, &phdata);
+		philo = init_philosophers(argv);
 		i = -1;
-		while (++i < number_of_philosophers)
-			pthread_create(&tinfo[i].tid, NULL, philosopher_manager, &tinfo[i]);
+		while (++i < phdata.number_of_philos)
+			pthread_create(&philo[i].tid, NULL, philosopher_manager, &philo[i]);
 		i = -1;
-		while (++i < number_of_philosophers)
-			pthread_join(tinfo[i].tid, NULL);					// [NOTE] Comprobar el tipo de dato que devuelve esto y los errores que puedan ocurrir.
+		while (++i < phdata.number_of_philos)
+			pthread_join(philo[i].tid, NULL);					// [NOTE] Comprobar el tipo de dato que devuelve esto y los errores que puedan ocurrir.
 	}
 	return (0);
 }
