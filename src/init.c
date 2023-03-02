@@ -18,52 +18,64 @@
  * PARAMETERS:
  * 
  */
-// int	init_mutex(t_data *data, int argc);
+int	init_mutex(t_philosopher *philo)
+{
+	philo->mutex = malloc(sizeof(pthread_mutex_t));
+	pthread_mutex_init(philo->mutex, NULL);
+	if (!philo->mutex)
+		return (0); // liberar memoria
+	return (1);
+}
 
 /**
  * DESCRIPTION:
  * Input data stored.
  * PARAMETERS:
- * @param	int				argc	Number of inputs.
  * @param	char			**argv	Input paramters.
  * @param	t_phdata		*phdata	philosopher general data.
  */
-void	init_data(int argc, char **argv, t_phdata *phdata)
+void	init_data(char **argv, t_phdata *phdata)
 {
 	phdata->number_of_philos = ft_atoi(argv[1]);
-	phdata->time_to_die = ft_atoi(argv[2]);
-	phdata->time_to_eat = ft_atoi(argv[3]);
-	phdata->time_to_sleep = ft_atoi(argv[4]);
-	if (argc == 4)
-		phdata->times_to_eat = ft_atoi(argv[5]);
-	else
-		phdata->times_to_eat = 1;
-	phdata->mutex = NULL; // init_mutex
+	phdata->time_to_die = ft_atoi(argv[2]) * 1e3;
+	phdata->time_to_eat = ft_atoi(argv[3]) * 1e3;
+	phdata->time_to_sleep = ft_atoi(argv[4]) * 1e3;
 	return ;
 }
 
 /**
  * DESCRIPTION:
- * Initialize philosophers data.
+ * Initialize each philosopher.
  * PARAMETERS:
- * @param	char	**argv	Input paramters.
+ * @param	int			argc	Number of inputs.
+ * @param	char		**argv	Input paramters.
+ * @param	t_phdata	*phdata	General data about philosophers.
  */
-t_philosopher	*init_philosophers(char **argv)
+t_philosopher	*init_philosophers(int argc, char **argv, t_phdata *phdata)
 {
 	t_philosopher	*philo;
 	int				i;
-	int				number_of_philosophers;
 	struct timeval	start;
 
-	number_of_philosophers = ft_atoi(argv[1]);
-	philo = calloc(number_of_philosophers, sizeof(*philo));		// [NOTE] función prohibida
+	philo = (t_philosopher *)malloc(sizeof(t_philosopher) * phdata->number_of_philos);
 	i = -1;
-	gettimeofday(&start, NULL);									// Registro oficial del inicio de la simulación.
-	while (++i < number_of_philosophers)
+	gettimeofday(&start, NULL); // Registro oficial del inicio de la simulación.
+	while (++i < phdata->number_of_philos)
 	{
 		philo[i].id = i;
-		philo[i].state = THINKING;
+		philo[i].status = LIVE;
+		philo[i].action = THINKING;
+		if (argc == 4)
+			philo[i].times_to_eat = ft_atoi(argv[5]);
+		else
+			philo[i].times_to_eat = 1;
 		philo[i].birth = start;
+		philo[i].phdata = phdata;
+		if (!init_mutex(&philo[i]))
+		{
+			printf("Error al inicializar mutex.\n");
+			philo[i].mutex = NULL;
+		}
 	}
 	return (philo);
 }

@@ -1,6 +1,7 @@
 #!/bin/bash
 
 echo Incorrect input arguments
+./philosophers
 ./philosophers 400
 ./philosophers 400 400
 ./philosophers 400 400 400

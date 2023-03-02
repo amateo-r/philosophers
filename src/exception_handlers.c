@@ -104,13 +104,14 @@ void	print_error(int code)
 {
 	printf("Error: ");
 	if (code == 1)
-		printf("Wrong number of inputs");
+		printf("Wrong number of inputs.");
 	else if (code == 2)
 		printf("Wrong format. Must be integers.");
 	else if (code == 3)
 		printf("Number zero isn't allowed.");
 	else if (code == 4)
 		printf("Negative numbers aren't allowed.");
+	printf("\n");
 	return ;
 }
 
@@ -125,7 +126,6 @@ int	input_manager(int argc, char **argv)
 {
 	int	flag;
 
-	printf("ARGC: %d\n", argc);
 	flag = 0;
 	if (argc < 4 || argc >= 6)
 		flag = 1;

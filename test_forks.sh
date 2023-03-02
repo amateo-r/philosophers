@@ -12,4 +12,13 @@
 
 #!/bin/bash
 
+#	5 400 400 400		Mío, resultado muy previo M.
+# M 1 800 200 200
+# V 5 800 200 200
+# V 5 800 200 200 7		viven y cada uno come 7 veces
+# V 4 410 200 200
+# M 4 310 200 100
+# V 3 310 103 103
+# M 3 310 104 104
+
 ./philosophers 5 400 400 400

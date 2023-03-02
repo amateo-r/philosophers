@@ -19,7 +19,8 @@ SRC		=	./src/main.c \
 			./src/libft/ft_timediff.c \
 			./src/philosophers_actions.c \
 			./src/forks.c \
-			./src/init.c
+			./src/init.c \
+			./src/ft_print.c
 
 OBJ		=	$(SRC:.c=.o)
 

@@ -1,32 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   forks.c                                            :+:      :+:    :+:   */
+/*   ft_print.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amateo-r <amateo-r@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/02 10:28:28 by amateo-r          #+#    #+#             */
-/*   Updated: 2022/09/02 10:28:30 by amateo-r         ###   ########.fr       */
+/*   Created: 2022/08/16 13:09:12 by amateo-r          #+#    #+#             */
+/*   Updated: 2022/08/16 13:09:15 by amateo-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libphil.h"
+# include "../libphil.h"
 
-void	test_forks(void)
+void	ft_print(t_philosopher *philo, char *message)
 {
-	/*
-	Si no estoy hambriento, no como.
-	Si LEFT FORK y RIGHT FORK ocupados, mutex.
-	*/
-	return ;
-}
-void	take_forks(t_philosopher *phil)
-{
-	printf("\tState: %d\n", phil->status);
-	test_forks();
-	return ;
-}
-void	put_forks(void)
-{
+	printf("%d %s\n", philo->id, message);
 	return ;
 }

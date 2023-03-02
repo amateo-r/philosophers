@@ -12,33 +12,59 @@
 
 # include "../libphil.h"
 
-void	thinking(t_philosopher *phil, int time_to_think)
+int		check_status(t_philosopher *philo)
 {
-	phil->state = THINKING;
-	usleep(time_to_think);
+	struct timeval	end;
+
+	if (philo->status != LIVE)
+		return (0);
+	gettimeofday(&end, NULL);
+	if (ft_timediff(philo->birth, end) * 1e6 > philo->phdata->time_to_die)
+	{
+		printf("\tPara philo %d han pasado %lf segundos desde su nacimiento\n", philo->id, ft_timediff(philo->birth, end));
+		pthread_mutex_lock(philo->mutex);
+		philo->status = DEAD;
+		return(0);
+	}
+	return (1);
+}
+
+void	thinking(t_philosopher *philo)
+{
+	philo->action = THINKING;
+	ft_print(philo, "is thinking");
+	usleep(philo->phdata->time_to_eat);
 	return ;
 }
 
-void	eating(t_philosopher *phil, int time_to_eat)
+void	eating(t_philosopher *philo)
 {
-	phil->state = EATING;
-	// close mutex
-	// bloquear tenedor derecho
-	// bloquear tenedor izquierdo
-	usleep(time_to_eat);
-	// liberar tenedor derecho
-	// liberar tenedor izquierdo
-	// open mutex
-	phil->times_to_eat--;
-
-	// put_forks
+	if (philo->times_to_eat > 0 && philo->status == LIVE)
+	{
+		pthread_mutex_lock(philo->mutex);
+		philo->action = EATING;
+		ft_print(philo, "is eating");
+		// close mutex
+		// bloquear tenedor derecho
+		// bloquear tenedor izquierdo
+		usleep(philo->phdata->time_to_eat);
+		// liberar tenedor derecho
+		// liberar tenedor izquierdo
+		// open mutex
+		philo->times_to_eat--;
+		if (philo->times_to_eat == 0)
+			philo->status = DONE;
+		// gettimeofday(philo->birth, NULL);
+		pthread_mutex_unlock(philo->mutex);
+	}
 	return ;
 }
 
-void	sleeping(t_philosopher *philo, int time_to_sleep)
+void	sleeping(t_philosopher *philo)
 {
-	philo->state = SLEEPING;
-	usleep(time_to_sleep);
+	philo->action = SLEEPING;
+	ft_print(philo, "is sleeping");
+	usleep(philo->phdata->time_to_sleep );
 	return ;
 }
 
@@ -47,14 +73,30 @@ void	*philosopher_manager(void *var)
 	t_philosopher	*philo;
 
 	philo = (t_philosopher *) var;
-	printf("Thread [%d]: %d\n", (int) philo->id, (int) philo->tid);
-	take_forks(philo);
-	while(philo->times_to_eat > 0) // [NOTE] Todo el mundo emplea 1 para crear un bucle eterno.
+	if (philo->id % 2 == 0)
+		thinking(philo);
+	while(philo->times_to_eat > 0 && check_status(philo)) 
 	{
-		// take_forks
-		// eating [put_forks inside]
-		// sleeping(phil->id);
-		// thinking(phil->id);
+		eating(philo);
+		sleeping(philo);
+		thinking(philo);
 	}
+	printf("%d is %d\n", philo->id, philo->status);
 	return (NULL);
 }
+
+
+// if (self->id % 2 == 0)
+// {
+// 	ft_print (self, "is thinking");
+// 	ft_msleep (self->data->time_eat);
+// }
+// while (1)
+// {
+// 	if (ft_check_died(self))
+// 		break ;
+// 	if (ft_eating (self) != SUCCESS)
+// 		break ;
+// 	ft_print (self, "is thinking");
+// 	ft_msleep (self->data->time_thk);
+// }
