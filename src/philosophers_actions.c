@@ -16,10 +16,17 @@ int		check_status(t_philosopher *philo)
 {
 	struct timeval	end;
 
-	if (philo->status != LIVE)
+	if (philo->status != LIVE || philo->phdata->stop)
 		return (0);
 	gettimeofday(&end, NULL);
 	if (ft_timediff(philo->birth, end) * 1e6 > philo->phdata->time_to_die)
+	{
+		printf("\tPara philo %d han pasado %lf segundos desde su nacimiento\n", philo->id, ft_timediff(philo->birth, end));
+		pthread_mutex_lock(philo->mutex);
+		philo->status = DEAD;
+		return(0);
+	}
+	if ((ft_timediff(philo->birth, end) * 1e6 - philo->phdata->time_to_die) < philo->phdata->time_to_eat)
 	{
 		printf("\tPara philo %d han pasado %lf segundos desde su nacimiento\n", philo->id, ft_timediff(philo->birth, end));
 		pthread_mutex_lock(philo->mutex);
@@ -81,7 +88,7 @@ void	*philosopher_manager(void *var)
 		sleeping(philo);
 		thinking(philo);
 	}
-	printf("%d is %d\n", philo->id, philo->status);
+	ft_printst(philo);
 	return (NULL);
 }
 

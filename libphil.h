@@ -37,22 +37,20 @@ enum e_action
  * DESCRIPTION:
  * Class to store general data that affects all
  * philosophers.
- * Tiempos para dormir, comer y morir
- * tid
- * mutex
- * thread states.
  * PARAMETERS:
  * @param	int	number_of_philos
  * @param	int	time_to_die
  * @param	int	time_to_eat
  * @param	int	time_to_sleep
+ * @param	int stop				If 1 simulation must stop.
  */
 typedef struct s_phdata
 {
-	int				number_of_philos;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
+	int	number_of_philos;
+	int	time_to_die;
+	int	time_to_eat;
+	int	time_to_sleep;
+	int	stop;
 }	t_phdata;
 
 /**
@@ -102,5 +100,9 @@ void			test_forks(void);
 
 //	src/ft_print.c
 void	ft_print(t_philosopher *philo, char *message);
+void	ft_printst(t_philosopher *philo);
+
+//	src/starter.c
+void	hour_of_meet(t_philosopher *philo);
 
 #endif

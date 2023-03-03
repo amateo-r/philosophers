@@ -36,10 +36,12 @@ int	init_mutex(t_philosopher *philo)
  */
 void	init_data(char **argv, t_phdata *phdata)
 {
+	phdata = (t_phdata *)malloc(sizeof(t_phdata) * 5);
 	phdata->number_of_philos = ft_atoi(argv[1]);
 	phdata->time_to_die = ft_atoi(argv[2]) * 1e3;
 	phdata->time_to_eat = ft_atoi(argv[3]) * 1e3;
 	phdata->time_to_sleep = ft_atoi(argv[4]) * 1e3;
+	phdata->stop = 0;
 	return ;
 }
 
@@ -57,9 +59,10 @@ t_philosopher	*init_philosophers(int argc, char **argv, t_phdata *phdata)
 	int				i;
 	struct timeval	start;
 
-	philo = (t_philosopher *)malloc(sizeof(t_philosopher) * phdata->number_of_philos);
+	philo = (t_philosopher *)malloc((sizeof(t_philosopher) + sizeof(t_phdata) * 5)* phdata->number_of_philos);
 	i = -1;
 	gettimeofday(&start, NULL); // Registro oficial del inicio de la simulación.
+	start.tv_sec += 3;
 	while (++i < phdata->number_of_philos)
 	{
 		philo[i].id = i;

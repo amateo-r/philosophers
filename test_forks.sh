@@ -12,13 +12,22 @@
 
 #!/bin/bash
 
-#	5 400 400 400		Mío, resultado muy previo M.
+#	5 400 400 400		Mío, resultado muy previo M. Probablemente deberían de vivir?
 # M 1 800 200 200
 # V 5 800 200 200
 # V 5 800 200 200 7		viven y cada uno come 7 veces
 # V 4 410 200 200
 # M 4 310 200 100
 # V 3 310 103 103
-# M 3 310 104 104
+# M 3 310 104 104		Uno tendría que morir.
 
-./philosophers 5 400 400 400
+# ./philosophers 5 400 400 400
+
+# ./philosophers 5 400 400 400
+# ./philosophers 1 800 200 200
+./philosophers 5 800 200 200
+# ./philosophers 5 800 200 200 7
+# ./philosophers 4 410 200 200
+# ./philosophers 4 310 200 100
+# ./philosophers 3 310 103 103
+# ./philosophers 3 310 104 104
