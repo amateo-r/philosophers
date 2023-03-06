@@ -24,8 +24,6 @@
 int	main(int argc, char **argv)
 {
 	t_phdata		phdata;
-	t_philosopher	*philo;
-	int				i;
 	// struct timeval	start;
 	// struct timeval	end;
 
@@ -34,18 +32,13 @@ int	main(int argc, char **argv)
 	// i = gettimeofday(&end, NULL);
 	// if (!i)
 	// 	printf("\tEnd:\n%lf segundos\n", ft_timediff(start, end));
-	philo = NULL;
 	if (!input_manager(argc - 1, argv))
 	{
 		printf("Iniciando...\n");
-		init_data(argv, &phdata);
-		philo = init_philosophers(argc, argv, &phdata);
-		i = -1;
-		while (++i < phdata.number_of_philos)
-			pthread_create(&philo[i].tid, NULL, philosopher_manager, &philo[i]);
-		i = -1;
-		while (++i < phdata.number_of_philos)
-			pthread_join(philo[i].tid, NULL); // [NOTE] Comprobar el tipo de dato que devuelve esto y los errores que puedan ocurrir.
+		init_data(argc - 1, argv, &phdata);
+		init_philosophers(&phdata);
+		simulation(&phdata);
+		free(phdata.philo);
 	}
 	return (0);
 }

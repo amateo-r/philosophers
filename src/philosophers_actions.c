@@ -14,25 +14,12 @@
 
 int		check_status(t_philosopher *philo)
 {
-	struct timeval	end;
+	// struct timeval	end;
 
-	if (philo->status != LIVE || philo->phdata->stop)
+	// mutex lock &philo->phdata->dead
+	if (philo->status != LIVE) // [DEV] || philo->phdata->stop)
 		return (0);
-	gettimeofday(&end, NULL);
-	if (ft_timediff(philo->birth, end) * 1e6 > philo->phdata->time_to_die)
-	{
-		printf("\tPara philo %d han pasado %lf segundos desde su nacimiento\n", philo->id, ft_timediff(philo->birth, end));
-		pthread_mutex_lock(philo->mutex);
-		philo->status = DEAD;
-		return(0);
-	}
-	if ((ft_timediff(philo->birth, end) * 1e6 - philo->phdata->time_to_die) < philo->phdata->time_to_eat)
-	{
-		printf("\tPara philo %d han pasado %lf segundos desde su nacimiento\n", philo->id, ft_timediff(philo->birth, end));
-		pthread_mutex_lock(philo->mutex);
-		philo->status = DEAD;
-		return(0);
-	}
+	// mutex unlock &philo->phdata->dead
 	return (1);
 }
 
@@ -46,23 +33,19 @@ void	thinking(t_philosopher *philo)
 
 void	eating(t_philosopher *philo)
 {
-	if (philo->times_to_eat > 0 && philo->status == LIVE)
+	if (philo->foods < philo->phdata->times_to_eat && philo->status == LIVE)
 	{
-		pthread_mutex_lock(philo->mutex);
 		philo->action = EATING;
 		ft_print(philo, "is eating");
-		// close mutex
-		// bloquear tenedor derecho
-		// bloquear tenedor izquierdo
+		// lock fork_l [NOTE] Lock it in function take_fork
+		// lock fork_r
 		usleep(philo->phdata->time_to_eat);
-		// liberar tenedor derecho
-		// liberar tenedor izquierdo
-		// open mutex
-		philo->times_to_eat--;
-		if (philo->times_to_eat == 0)
+		// unlock fork_l
+		// unlock fork_r
+		philo->foods++;
+		if (philo->foods > philo->phdata->times_to_eat)
 			philo->status = DONE;
 		// gettimeofday(philo->birth, NULL);
-		pthread_mutex_unlock(philo->mutex);
 	}
 	return ;
 }
@@ -82,7 +65,7 @@ void	*philosopher_manager(void *var)
 	philo = (t_philosopher *) var;
 	if (philo->id % 2 == 0)
 		thinking(philo);
-	while(philo->times_to_eat > 0 && check_status(philo)) 
+	while(philo->foods < philo->phdata->times_to_eat && check_status(philo)) 
 	{
 		eating(philo);
 		sleeping(philo);
@@ -91,19 +74,3 @@ void	*philosopher_manager(void *var)
 	ft_printst(philo);
 	return (NULL);
 }
-
-
-// if (self->id % 2 == 0)
-// {
-// 	ft_print (self, "is thinking");
-// 	ft_msleep (self->data->time_eat);
-// }
-// while (1)
-// {
-// 	if (ft_check_died(self))
-// 		break ;
-// 	if (ft_eating (self) != SUCCESS)
-// 		break ;
-// 	ft_print (self, "is thinking");
-// 	ft_msleep (self->data->time_thk);
-// }

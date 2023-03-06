@@ -35,35 +35,14 @@ enum e_action
 
 /**
  * DESCRIPTION:
- * Class to store general data that affects all
- * philosophers.
- * PARAMETERS:
- * @param	int	number_of_philos
- * @param	int	time_to_die
- * @param	int	time_to_eat
- * @param	int	time_to_sleep
- * @param	int stop				If 1 simulation must stop.
- */
-typedef struct s_phdata
-{
-	int	number_of_philos;
-	int	time_to_die;
-	int	time_to_eat;
-	int	time_to_sleep;
-	int	stop;
-}	t_phdata;
-
-/**
- * DESCRIPTION:
- * Class to store philosopher's data. Represents a
+ * Class to store each philosopher's data. Represents a
  * philosopher.
  * PARAMETERS:
- * @param	pthread_t		tid				Current thread.
- * @param	int				status			DEAD 0, LIVE 1, DONE 2.
- * @param	int				action			THINKING 0, EATING 1, SLEEPING 2.
- * @param	int				times_to_eat	Times that a philosopher must eat.
- * @param	struct timeval	birth			Date of born.
- * @param	pthread_mutex_t	mutex			Fork locker.
+ * @param	pthread_t		tid		Current thread.
+ * @param	int				status	DEAD 0, LIVE 1, DONE 2.
+ * @param	int				action	THINKING 0, EATING 1, SLEEPING 2.
+ * @param	int				foods	Times that a philosopher ate.
+ * @param	struct timeval	birth	Date of born.
  */
 typedef struct s_philosopher
 {
@@ -71,11 +50,35 @@ typedef struct s_philosopher
 	int				id;
 	int				status;
 	int				action;
-	int				times_to_eat;
+	int				foods;
 	struct timeval	birth;
-	t_phdata		*phdata;
-	pthread_mutex_t	*mutex;
+	struct s_phdata	*phdata;
+	pthread_mutex_t	fork_l;
+	pthread_mutex_t	*fork_r;
 }	t_philosopher;
+
+/**
+ * DESCRIPTION:
+ * Class to store general data that affects all
+ * philosophers.
+ * PARAMETERS:
+ * @param	int				number_of_philos
+ * @param	int				time_to_die
+ * @param	int				time_to_eat
+ * @param	int				time_to_sleep
+ * @param	int				stop				If 1 simulation must stop.
+ * @param	t_philosopher	*philo				Array of threads.
+ */
+typedef struct s_phdata
+{
+	int				number_of_philos;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				times_to_eat;
+	int				stop;
+	t_philosopher	*philo;
+}	t_phdata;
 
 //	src/libft
 size_t			ft_strlen(const char *s);
@@ -87,8 +90,8 @@ float			ft_timediff(struct timeval start, struct timeval end);
 int				input_manager(int argc, char **argv);
 
 //	src/init.c
-void			init_data(char **argv, t_phdata *phdata);
-t_philosopher	*init_philosophers(int argc, char **argv, t_phdata *phdata);
+void	init_data(int argc, char **argv, t_phdata *phdata);
+void	init_philosophers(t_phdata *phdata);
 
 //	src/philosophers_actions.c
 void			*philosopher_manager(void *var);
@@ -104,5 +107,8 @@ void	ft_printst(t_philosopher *philo);
 
 //	src/starter.c
 void	hour_of_meet(t_philosopher *philo);
+
+//	src/simultaion.c
+void    simulation(t_phdata *phdata);
 
 #endif

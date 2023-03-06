@@ -18,14 +18,14 @@
  * PARAMETERS:
  * 
  */
-int	init_mutex(t_philosopher *philo)
-{
-	philo->mutex = malloc(sizeof(pthread_mutex_t));
-	pthread_mutex_init(philo->mutex, NULL);
-	if (!philo->mutex)
-		return (0); // liberar memoria
-	return (1);
-}
+// int	init_mutex(t_philosopher *philo)
+// {
+// 	philo->mutex = malloc(sizeof(pthread_mutex_t));
+// 	pthread_mutex_init(philo->mutex, NULL);
+// 	if (!philo->mutex)
+// 		return (0); // liberar memoria
+// 	return (1);
+// }
 
 /**
  * DESCRIPTION:
@@ -34,14 +34,19 @@ int	init_mutex(t_philosopher *philo)
  * @param	char			**argv	Input paramters.
  * @param	t_phdata		*phdata	philosopher general data.
  */
-void	init_data(char **argv, t_phdata *phdata)
+void	init_data(int argc, char **argv, t_phdata *phdata)
 {
-	phdata = (t_phdata *)malloc(sizeof(t_phdata) * 5);
 	phdata->number_of_philos = ft_atoi(argv[1]);
 	phdata->time_to_die = ft_atoi(argv[2]) * 1e3;
 	phdata->time_to_eat = ft_atoi(argv[3]) * 1e3;
 	phdata->time_to_sleep = ft_atoi(argv[4]) * 1e3;
+	if (argc == 5)
+		phdata->times_to_eat = ft_atoi(argv[5]);
+	else
+		phdata->times_to_eat = 1;
 	phdata->stop = 0;
+	phdata->philo = malloc(sizeof(t_philosopher) * phdata->number_of_philos);
+	// Check philosopher memory allocation
 	return ;
 }
 
@@ -53,32 +58,28 @@ void	init_data(char **argv, t_phdata *phdata)
  * @param	char		**argv	Input paramters.
  * @param	t_phdata	*phdata	General data about philosophers.
  */
-t_philosopher	*init_philosophers(int argc, char **argv, t_phdata *phdata)
+void	init_philosophers(t_phdata *phdata)
 {
-	t_philosopher	*philo;
 	int				i;
 	struct timeval	start;
 
-	philo = (t_philosopher *)malloc((sizeof(t_philosopher) + sizeof(t_phdata) * 5)* phdata->number_of_philos);
+
 	i = -1;
 	gettimeofday(&start, NULL); // Registro oficial del inicio de la simulación.
-	start.tv_sec += 3;
 	while (++i < phdata->number_of_philos)
 	{
-		philo[i].id = i;
-		philo[i].status = LIVE;
-		philo[i].action = THINKING;
-		if (argc == 4)
-			philo[i].times_to_eat = ft_atoi(argv[5]);
+		phdata->philo[i].id = i + 1;
+		phdata->philo[i].status = LIVE;
+		phdata->philo[i].action = THINKING;
+		phdata->philo[i].foods = 0;
+		phdata->philo[i].birth = start;
+		phdata->philo[i].phdata = phdata;
+		pthread_mutex_init(&(phdata->philo[i].fork_l), NULL);
+		// [DEV] Check memory alocation of mutex.
+		if (i == phdata->number_of_philos - 1)
+			phdata->philo[i].fork_r = &phdata->philo[0].fork_l;
 		else
-			philo[i].times_to_eat = 1;
-		philo[i].birth = start;
-		philo[i].phdata = phdata;
-		if (!init_mutex(&philo[i]))
-		{
-			printf("Error al inicializar mutex.\n");
-			philo[i].mutex = NULL;
-		}
+			phdata->philo[i].fork_r = &phdata->philo[i + 1].fork_l;
 	}
-	return (philo);
+	return ;
 }

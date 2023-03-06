@@ -21,7 +21,8 @@ SRC		=	./src/main.c \
 			./src/forks.c \
 			./src/init.c \
 			./src/ft_print.c \
-			./src/starter.c
+			./src/starter.c \
+			./src/simulator.c
 
 OBJ		=	$(SRC:.c=.o)
 
