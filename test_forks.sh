@@ -12,22 +12,40 @@
 
 #!/bin/bash
 
-#	5 400 400 400		Mío, resultado muy previo M. Probablemente deberían de vivir?
-# M 1 800 200 200
-# V 5 800 200 200
-# V 5 800 200 200 7		viven y cada uno come 7 veces
-# V 4 410 200 200
-# M 4 310 200 100
-# V 3 310 103 103
-# M 3 310 104 104		Uno tendría que morir.
-
+# M
 # ./philosophers 5 400 400 400
 
-# ./philosophers 5 400 400 400
+# M: Hay tenedores por cada philosopher. Aquí solo hay un tenedor, por tanto no puede comer.
+# El enunciado dice que 1 o más filósofos se sientan a comer, por tanto debe ejecutarse la 
+# simulación.
+# DEV NOTES
+# Se queda en un bucle eterno esperando a algo.
 # ./philosophers 1 800 200 200
-./philosophers 5 800 200 200
+
+# V
+# ./philosophers 5 800 200 200
+
+# V
+# DEV NOTES
+# Los estados no se actualizan correctamente
+# Hay filósofos que mueren. El primerto tan solo.
+# Los estados pueden estar corrompiendose debido a que la simulación termina antes. Con la 
+# variable stop activa los estados dejan de actualizarse.
+# Además la simulación termina porque no reinicio philo->birth cuando comen.s
 # ./philosophers 5 800 200 200 7
+
+# V
 # ./philosophers 4 410 200 200
+
+# M
 # ./philosophers 4 310 200 100
-# ./philosophers 3 310 103 103
-# ./philosophers 3 310 104 104
+
+# V
+./philosophers 3 310 103 103
+
+# M: uno tendría que morir.
+# ./philosophers 3 310 104 104
+
+# 1 - t104 - e208 - DONE
+# 2 - e104 - DONE
+# 3 - t104 - s208 - e312

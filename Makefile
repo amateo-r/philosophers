@@ -12,7 +12,7 @@
 
 #	SOURCES
 SRC		=	./src/main.c \
-			./src/exception_handlers.c \
+			./src/exceptions_handler.c \
 			./src/libft/ft_strlen.c \
 			./src/libft/ft_strncmp.c \
 			./src/libft/ft_atoi.c \

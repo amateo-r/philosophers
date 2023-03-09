@@ -14,10 +14,26 @@
 
 int		check_status(t_philosopher *philo)
 {
-	// struct timeval	end;
+	struct timeval	end;
 
 	// mutex lock &philo->phdata->dead
-	if (philo->status != LIVE) // [DEV] || philo->phdata->stop)
+	if (philo->phdata->stop)
+		return (0);
+	if (philo->foods == 0 && philo->status == LIVE)
+	{
+		philo->status = DONE;
+		philo->phdata->done_philos++;
+		if (philo->phdata->done_philos == philo->phdata->number_of_philos)
+			philo->phdata->stop = 1;
+	}
+	gettimeofday(&end, NULL);
+	printf("Diferencia de %d: %f --- %f\n", philo->id, ft_timediff(philo->birth, end), philo->phdata->time_to_die);
+	if (philo->status == LIVE && ft_timediff(philo->birth, end) >= philo->phdata->time_to_die)
+	{
+		philo->status = DEAD;
+		philo->phdata->stop = 1;
+	}
+	if (philo->status != LIVE || philo->phdata->stop) // [DEV] || philo->phdata->stop)
 		return (0);
 	// mutex unlock &philo->phdata->dead
 	return (1);
@@ -25,36 +41,46 @@ int		check_status(t_philosopher *philo)
 
 void	thinking(t_philosopher *philo)
 {
-	philo->action = THINKING;
-	ft_print(philo, "is thinking");
-	usleep(philo->phdata->time_to_eat);
+		philo->action = THINKING;
+		if (!philo->phdata->stop)
+			ft_print(philo, "is thinking");
+		usleep(philo->phdata->time_to_eat);
 	return ;
 }
 
 void	eating(t_philosopher *philo)
 {
-	if (philo->foods < philo->phdata->times_to_eat && philo->status == LIVE)
+	struct timeval	end;
+
+	if (philo->foods <= philo->phdata->times_to_eat)
 	{
 		philo->action = EATING;
 		ft_print(philo, "is eating");
-		// lock fork_l [NOTE] Lock it in function take_fork
-		// lock fork_r
+		pthread_mutex_lock(&philo->fork_l);		// lock fork_l [NOTE] Lock it in function take_fork
+		pthread_mutex_lock(philo->fork_r); 		// lock fork_r
 		usleep(philo->phdata->time_to_eat);
-		// unlock fork_l
-		// unlock fork_r
-		philo->foods++;
-		if (philo->foods > philo->phdata->times_to_eat)
-			philo->status = DONE;
-		// gettimeofday(philo->birth, NULL);
+		pthread_mutex_unlock(&philo->fork_l);	// unlock fork_l
+		pthread_mutex_unlock(philo->fork_r);	// unlock fork_r
+		gettimeofday(&end, NULL);
+		if (check_status(philo))
+			return ;
+		else
+		{
+			philo->foods--;
+			if (philo->foods <= 0)
+				philo->status = DONE;
+		}
+		// gettimeofday(&philo->birth, NULL);
 	}
 	return ;
 }
 
 void	sleeping(t_philosopher *philo)
 {
-	philo->action = SLEEPING;
-	ft_print(philo, "is sleeping");
-	usleep(philo->phdata->time_to_sleep );
+		philo->action = SLEEPING;
+		if (!philo->phdata->stop)
+			ft_print(philo, "is sleeping");
+		usleep(philo->phdata->time_to_sleep );
 	return ;
 }
 
@@ -63,13 +89,16 @@ void	*philosopher_manager(void *var)
 	t_philosopher	*philo;
 
 	philo = (t_philosopher *) var;
-	if (philo->id % 2 == 0)
+	if (philo->id % 2 != 0)
 		thinking(philo);
-	while(philo->foods < philo->phdata->times_to_eat && check_status(philo)) 
+	while(check_status(philo))
 	{
-		eating(philo);
-		sleeping(philo);
-		thinking(philo);
+		if (philo->status == LIVE)
+		{
+			eating(philo);
+			sleeping(philo);
+			thinking(philo);
+		}
 	}
 	ft_printst(philo);
 	return (NULL);

@@ -29,29 +29,6 @@
 
 /**
  * DESCRIPTION:
- * Input data stored.
- * PARAMETERS:
- * @param	char			**argv	Input paramters.
- * @param	t_phdata		*phdata	philosopher general data.
- */
-void	init_data(int argc, char **argv, t_phdata *phdata)
-{
-	phdata->number_of_philos = ft_atoi(argv[1]);
-	phdata->time_to_die = ft_atoi(argv[2]) * 1e3;
-	phdata->time_to_eat = ft_atoi(argv[3]) * 1e3;
-	phdata->time_to_sleep = ft_atoi(argv[4]) * 1e3;
-	if (argc == 5)
-		phdata->times_to_eat = ft_atoi(argv[5]);
-	else
-		phdata->times_to_eat = 1;
-	phdata->stop = 0;
-	phdata->philo = malloc(sizeof(t_philosopher) * phdata->number_of_philos);
-	// Check philosopher memory allocation
-	return ;
-}
-
-/**
- * DESCRIPTION:
  * Initialize each philosopher.
  * PARAMETERS:
  * @param	int			argc	Number of inputs.
@@ -71,7 +48,7 @@ void	init_philosophers(t_phdata *phdata)
 		phdata->philo[i].id = i + 1;
 		phdata->philo[i].status = LIVE;
 		phdata->philo[i].action = THINKING;
-		phdata->philo[i].foods = 0;
+		phdata->philo[i].foods = phdata->times_to_eat;
 		phdata->philo[i].birth = start;
 		phdata->philo[i].phdata = phdata;
 		pthread_mutex_init(&(phdata->philo[i].fork_l), NULL);
@@ -81,5 +58,29 @@ void	init_philosophers(t_phdata *phdata)
 		else
 			phdata->philo[i].fork_r = &phdata->philo[i + 1].fork_l;
 	}
+	return ;
+}
+
+/**
+ * DESCRIPTION:
+ * Input data stored.
+ * PARAMETERS:
+ * @param	char			**argv	Input paramters.
+ * @param	t_phdata		*phdata	philosopher general data.
+ */
+void	init_data(int argc, char **argv, t_phdata *phdata)
+{
+	phdata->number_of_philos = ft_atoi(argv[1]);
+	phdata->time_to_die = ft_atoi(argv[2]) * 1e-3;
+	phdata->time_to_eat = ft_atoi(argv[3]) * 1e3;
+	phdata->time_to_sleep = ft_atoi(argv[4]) * 1e3;
+	if (argc == 5)
+		phdata->times_to_eat = ft_atoi(argv[5]);
+	else
+		phdata->times_to_eat = 1;
+	phdata->stop = 0;
+	phdata->done_philos = 0;
+	phdata->philo = malloc(sizeof(t_philosopher) * phdata->number_of_philos);
+	// Check philosopher memory allocation
 	return ;
 }

@@ -24,14 +24,7 @@
 int	main(int argc, char **argv)
 {
 	t_phdata		phdata;
-	// struct timeval	start;
-	// struct timeval	end;
 
-	// i = gettimeofday(&start, NULL);
-	// usleep(3000000);
-	// i = gettimeofday(&end, NULL);
-	// if (!i)
-	// 	printf("\tEnd:\n%lf segundos\n", ft_timediff(start, end));
 	if (!input_manager(argc - 1, argv))
 	{
 		printf("Iniciando...\n");

@@ -63,30 +63,32 @@ typedef struct s_philosopher
  * philosophers.
  * PARAMETERS:
  * @param	int				number_of_philos
- * @param	int				time_to_die
+ * @param	float			time_to_die
  * @param	int				time_to_eat
  * @param	int				time_to_sleep
  * @param	int				stop				If 1 simulation must stop.
+ * @param	int				done_philos
  * @param	t_philosopher	*philo				Array of threads.
  */
 typedef struct s_phdata
 {
 	int				number_of_philos;
-	int				time_to_die;
+	float				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				times_to_eat;
 	int				stop;
+	int				done_philos;
 	t_philosopher	*philo;
 }	t_phdata;
 
 //	src/libft
-size_t			ft_strlen(const char *s);
-int				ft_strncmp(const char *s1, const char *s2, size_t n);
-int				ft_atoi(const char *str);
-float			ft_timediff(struct timeval start, struct timeval end);
+size_t	ft_strlen(const char *s);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+int		ft_atoi(const char *str);
+float	ft_timediff(struct timeval start, struct timeval end);
 
-//	src/exceptions_handlers.c
+//	src/exceptions_handler.c
 int				input_manager(int argc, char **argv);
 
 //	src/init.c
@@ -94,12 +96,12 @@ void	init_data(int argc, char **argv, t_phdata *phdata);
 void	init_philosophers(t_phdata *phdata);
 
 //	src/philosophers_actions.c
-void			*philosopher_manager(void *var);
+void	*philosopher_manager(void *var);
 
 //	src/forks.c
-void			take_forks(t_philosopher *phil);
-void			put_forks(void);
-void			test_forks(void);
+void	take_forks(t_philosopher *phil);
+void	put_forks(void);
+void	test_forks(void);
 
 //	src/ft_print.c
 void	ft_print(t_philosopher *philo, char *message);

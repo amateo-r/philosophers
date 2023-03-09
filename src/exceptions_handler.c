@@ -108,7 +108,7 @@ void	print_error(int code)
 	else if (code == 2)
 		printf("Wrong format. Must be integers.");
 	else if (code == 3)
-		printf("Number zero isn't allowed.");
+		printf("Numbers must be greater than 1.");
 	else if (code == 4)
 		printf("Negative numbers aren't allowed.");
 	printf("\n");
